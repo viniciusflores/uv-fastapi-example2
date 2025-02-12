@@ -1,0 +1,52 @@
+name: Unit Tests
+
+on:
+  pull_request:
+
+permissions:
+  pull-requests: write
+
+jobs:
+  run-tests:
+    strategy:
+      # Run all tests to provide feedback on full branch
+      fail-fast: false
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: "0"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: "0.5.24"
+
+      - name: Sync dependencies
+        run: uv sync --locked
+
+      - name: Run tests
+        id: run-tests
+        run: uv run pytest -s -v
+
+      - name: Comment on PR if tests fail
+        if: failure()
+        uses: thollander/actions-comment-pull-request@v3
+        with:
+          message: "🚨 Some tests failed! Please review the logs before approving or taking the risk."
+
+      - name: Create a PR status badge
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            message: "❌ Some tests failed. See logs for details."
+            core.summary.addHeading("❌ Some tests failed")
+                        .addRaw(message)
+                        .write();
+
+      # - name: Save test results
+      #   if: failure()
+      #   run: echo "❌ Some tests failed. See logs for details." >> $GITHUB_STEP_SUMMARY
+
