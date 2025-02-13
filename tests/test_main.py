@@ -1,5 +1,7 @@
 from unittest import TestCase
 
+from app.main import app
+
 
 class TestMain(TestCase):
     def test_main(self):
@@ -13,3 +15,6 @@ class TestMain(TestCase):
 
     def test_main4(self):
         self.assertTrue(False)
+
+    def test_main5(self):
+        assert 1 == 2
