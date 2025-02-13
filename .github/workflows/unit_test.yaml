@@ -39,7 +39,7 @@ jobs:
         uses: thollander/actions-comment-pull-request@v3
         with:
           comment_tag: to_delete
-          mode: delete
+          mode: recreate
           message: |
             "🚨 Some tests failed! Please review the logs before approving or taking the risk. Date: ${{ env.CURRENT_DATE }}"
 
