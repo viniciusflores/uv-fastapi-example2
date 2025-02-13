@@ -30,11 +30,15 @@ jobs:
         id: run-tests
         run: uv run pytest -s -v
 
+      - name: Get current date and time
+        id: get-date
+        run: echo "CURRENT_DATE=$(date)" >> $GITHUB_ENV
+
       - name: Comment on PR if tests fail
         if: failure()
         uses: thollander/actions-comment-pull-request@v3
         with:
-          message: "🚨 Some tests failed! Please review the logs before approving or taking the risk."
+          message: "🚨 Some tests failed! Please review the logs before approving or taking the risk. Date: ${{ env.CURRENT_DATE }}"
 
       - name: Create a PR status badge
         if: failure()
