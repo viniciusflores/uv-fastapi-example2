@@ -34,13 +34,14 @@ jobs:
         id: run-tests
         run: uv run pytest -s -v
 
-
-
       - name: Comment on PR if tests fail
         if: failure()
         uses: thollander/actions-comment-pull-request@v3
         with:
-          message: "🚨 Some tests failed! Please review the logs before approving or taking the risk. Date: ${{ env.CURRENT_DATE }}"
+          comment_tag: to_delete
+          mode: delete
+          message: |
+            "🚨 Some tests failed! Please review the logs before approving or taking the risk. Date: ${{ env.CURRENT_DATE }}"
 
       - name: Create a PR status badge
         if: failure()
