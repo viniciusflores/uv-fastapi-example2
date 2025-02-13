@@ -38,9 +38,9 @@ jobs:
         if: failure()
         uses: thollander/actions-comment-pull-request@v3
         with:
-          comment-tag: to-update
-          mode: recreate
-          create-if-not-exists: false
+          comment_tag: to-update
+          mode: upsert
+          create_if_not_exists: false
           message: |
             "🚨 Some tests failed! Please review the logs before approving or taking the risk. Date: ${{ env.CURRENT_DATE }}"
 
