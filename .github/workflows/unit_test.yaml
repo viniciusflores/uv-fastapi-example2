@@ -18,6 +18,10 @@ jobs:
         with:
           fetch-depth: "0"
 
+      - name: Get current date and time
+        id: get-date
+        run: echo "CURRENT_DATE=$(date)" >> $GITHUB_ENV
+
       - name: Install uv
         uses: astral-sh/setup-uv@v5
         with:
@@ -30,9 +34,7 @@ jobs:
         id: run-tests
         run: uv run pytest -s -v
 
-      - name: Get current date and time
-        id: get-date
-        run: echo "CURRENT_DATE=$(date)" >> $GITHUB_ENV
+
 
       - name: Comment on PR if tests fail
         if: failure()
