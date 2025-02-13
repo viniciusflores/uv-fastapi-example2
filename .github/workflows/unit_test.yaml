@@ -32,7 +32,8 @@ jobs:
 
       - name: Run tests
         id: run-tests
-        run: uv run coverage run -m pytest --tb=short | grep -A 5 "FAILED" > failed_tests.txt
+        run: uv run coverage run -m pytest
+        # run: uv run coverage run -m pytest --tb=short | tee /dev/tty | grep -A 5 "FAILED" > failed_tests.txt
 
       - name: Comment on PR if tests fail
         if: failure()
