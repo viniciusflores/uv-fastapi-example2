@@ -39,17 +39,18 @@ jobs:
         #  run: uv run coverage run -m pytest
 
       - name: Read failed tests
-        # if: ${{ steps.run-tests.outcome == 'failure' }}
-        # if: ${{ steps.run-test.status != '0' }}
-        if: ${{ steps.run-tests.outputs.exit-code != 0 }}
+        if: ${{ env.TEST_EXIT_CODE != 0 }}
         id: read-failed-tests
         run: |
           if [ -f failed_tests.txt ]; then
-            FAILED_TESTS=$(cat failed_tests.txt)
-            echo "FAILED_TESTS<<EOF" >> $GITHUB_ENV
-            echo "$FAILED_TESTS" >> $GITHUB_ENV
-            echo "EOF" >> $GITHUB_ENV
+          FAILED_TESTS=$(cat failed_tests.txt)
+          echo "FAILED_TESTS<<EOF" >> $GITHUB_ENV
+          echo "$FAILED_TESTS" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
           fi
+        # if: ${{ steps.run-tests.outcome == 'failure' }}
+        # if: ${{ steps.run-test.status != '0' }}
+        # if: ${{ steps.run-tests.outputs.exit-code != 0 }}
 
       # - name: Comment on PR if tests fail
       #   id: comment-pr
@@ -73,14 +74,14 @@ jobs:
           comment-tag: to-update
           mode: upsert
           message: |
-            ${{ steps.run-tests.outputs.exit-code != 0 }} && '🚨 Some tests failed! Please review the logs before approving or taking the risk. Date: ${{ env.CURRENT_DATE }}\nFailed Tests:\n${{ env.FAILED_TESTS }}' }} || '🎉 All tests passed! Great job! Date: ${{ env.CURRENT_DATE }}'
+            ${{ env.TEST_EXIT_CODE != 0 }} && '🚨 Some tests failed! Please review the logs before approving or taking the risk. Date: ${{ env.CURRENT_DATE }}\nFailed Tests:\n${{ env.FAILED_TESTS }}' }} || '🎉 All tests passed! Great job! Date: ${{ env.CURRENT_DATE }}'
 
       - name: Create a PR status badge
         id: pr-status-badge
         uses: actions/github-script@v7
         with:
           script: |
-            if: (${{ steps.run-tests.outputs.exit-code != 0 }}) {
+            if: (${{ env.TEST_EXIT_CODE != 0 }}) {
               message = "❌ Some tests failed. See logs for details. ❌\n ${{ env.FAILED_TESTS }}";
               core.summary.addHeading("❌ Some tests failed ❌")
                           .addRaw(message)
