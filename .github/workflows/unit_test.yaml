@@ -57,11 +57,15 @@ jobs:
         if: always()
         id: comment-pr
         uses: thollander/actions-comment-pull-request@v3
+        env:
+          MESSAGE_FAIL: ok_false
+          MESSAGE_SUCCESS: ok_true
         with:
           comment-tag: to-update
           mode: upsert
           message: |
-            ${{ env.TEST_EXIT_CODE != '0' && '🚨 Some tests failed! Please review the logs before approving or taking the risk. Date:  ${{env.CURRENT_DATE}} \nFailed Tests:\n ${{env.FAILED_TESTS}}' || 'No failed tests found.' }}
+            ${{ steps.read-failed-tests.outputs.TEST_EXIT_CODE != '0' && env.MESSAGE_FAIL || env.MESSAGE_SUCCESS }}
+        # '🚨 Some tests failed! Please review the logs before approving or taking the risk. Date:  ${{env.CURRENT_DATE}} \nFailed Tests:\n ${{env.FAILED_TESTS}}' || 'No failed tests found.' }}
 
       - name: Create a PR status badge
         if: always()
