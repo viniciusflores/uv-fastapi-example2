@@ -54,25 +54,24 @@ jobs:
           fi
 
       - name: Comment on PR
-        if: ${{ env.TEST_EXIT_CODE != '0' }}
+        if: always()
         id: comment-pr
         uses: thollander/actions-comment-pull-request@v3
         with:
           comment-tag: to-update
           mode: upsert
           message: |
-            🚨 Some tests failed! Please review the logs before approving or taking the risk. Date: ${{ env.CURRENT_DATE }}
-            Failed Tests:
-            ${{ env.FAILED_TESTS }}
+             ${{ env.TEST_EXIT_CODE != '0' && '🚨 Some tests failed! Please review the logs before approving or taking the risk. Date: ' + env.CURRENT_DATE + '\nFailed Tests:\n' + env.FAILED_TESTS || 'No failed tests found.' }}
 
       - name: Create a PR status badge
-        if: ${{ env.TEST_EXIT_CODE != '0' }}
+        if: always()
         id: pr-status-badge
         uses: actions/github-script@v7
         with:
           script: |
-            if (process.env.TEST_EXIT_CODE != '0') {
-              message = "❌ Some tests failed. See logs for details. ❌\n" + process.env.FAILED_TESTS;
+            const core = require('@actions/core');
+            if (${{ env.TEST_EXIT_CODE }} != '0') {
+              message = "❌ Some tests failed. See logs for details. ❌\n" + ${{env.FAILED_TESTS}};
               core.summary.addHeading("❌ Some tests failed ❌")
                           .addRaw(message)
                           .write();
