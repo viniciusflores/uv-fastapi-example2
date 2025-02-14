@@ -36,6 +36,7 @@ jobs:
           uv run coverage run -m pytest --tb=short | tee >(grep -A 5 "FAILED" > failed_tests.txt)
           exit ${PIPESTATUS[0]}
           echo "TEST_EXIT_CODE=$TEST_EXIT_CODE" >> $GITHUB_ENV
+          echo "::set-output name=exit-code::$TEST_EXIT_CODE"
           exit $TEST_EXIT_CODE
         #  uv run coverage run -m pytest --tb=short | tee /dev/tty | grep -A 5 "FAILED" > failed_tests.txt
         #  run: uv run coverage run -m pytest
