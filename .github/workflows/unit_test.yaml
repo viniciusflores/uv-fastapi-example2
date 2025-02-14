@@ -58,7 +58,7 @@ jobs:
         id: comment-pr
         uses: thollander/actions-comment-pull-request@v3
         env:
-          MESSAGE_FAIL: '🚨 Some tests failed! 🚨 Please review the logs before approving or taking the risk. Date:  ${{env.CURRENT_DATE}} \nFailed Tests:\n ${{env.FAILED_TESTS}}'
+          MESSAGE_FAIL: '🚨 Some tests failed! 🚨 Please review the logs before approving or taking the risk. Date:  ${env.CURRENT_DATE} \nFailed Tests:\n ${env.FAILED_TESTS}'
           MESSAGE_SUCCESS: '✅ All tests passed. Great job! ✅'
         with:
           comment-tag: to-update
@@ -73,7 +73,7 @@ jobs:
         with:
           script: |
             if (${{ env.TEST_EXIT_CODE }} != '0') {
-              message = "❌ Some tests failed. See logs for details. ❌\n" + ${{env.FAILED_TESTS}};
+              message = "❌ Some tests failed. See logs for details. ❌\n ${{ env.FAILED_TESTS }}";
               core.summary.addHeading("❌ Some tests failed ❌")
                           .addRaw(message)
                           .write();
