@@ -39,7 +39,8 @@ jobs:
         #  run: uv run coverage run -m pytest
 
       - name: Read failed tests
-        if: failure()
+        # if: failure()
+        if: ${{ steps.run-tests.outcome == 'failure' }}
         id: read-failed-tests
         run: |
           if [ -f failed_tests.txt ]; then
@@ -49,29 +50,47 @@ jobs:
             echo "EOF" >> $GITHUB_ENV
           fi
 
-      - name: Comment on PR if tests fail
+      # - name: Comment on PR if tests fail
+      #   id: comment-pr
+      #   if: failure()
+      #   uses: thollander/actions-comment-pull-request@v3
+      #   with:
+      #     comment-tag: to-update
+      #     mode: upsert
+      #     # create-if-not-exists: true
+      #     # reactions: eyes, rocket
+      #     message: |
+      #       "🚨 Some tests failed! Please review the logs before approving or taking the risk. Date: ${{ env.CURRENT_DATE }}"
+      #       "Failed Tests:"
+      #       ""
+      #       "${{ env.FAILED_TESTS }}"
+
+      - name: Comment on PR
         id: comment-pr
-        if: failure()
         uses: thollander/actions-comment-pull-request@v3
         with:
           comment-tag: to-update
           mode: upsert
-          # create-if-not-exists: true
-          # reactions: eyes, rocket
           message: |
-            "🚨 Some tests failed! Please review the logs before approving or taking the risk. Date: ${{ env.CURRENT_DATE }}"
-            "Failed Tests:"
-            "\n${{ env.FAILED_TESTS }}\n"
+            ${{ steps.run-tests.outcome == 'success' && '🎉 All tests passed! Great job! Date: ${{ env.CURRENT_DATE }}' || '🚨 Some tests failed! Please review the logs before approving or taking the risk. Date: ${{ env.CURRENT_DATE }}\nFailed Tests:\n${{ env.FAILED_TESTS }}' }}
+
 
       - name: Create a PR status badge
-        if: failure()
+        id: pr-status-badge
         uses: actions/github-script@v7
         with:
           script: |
-            message = "❌ Some tests failed. See logs for details. ❌"
-            core.summary.addHeading("❌ Some tests failed ❌")
-                        .addRaw(message)
-                        .write();
+            if ('${{ steps.run-tests.outcome }}' == 'success') {
+              message = "✅ All tests passed. Great job! ✅";
+              core.summary.addHeading("✅ All tests passed ✅")
+                          .addRaw(message)
+                          .write();
+            } else {
+              message = "❌ Some tests failed. See logs for details. ❌\n ${{ env.FAILED_TESTS }}";
+              core.summary.addHeading("❌ Some tests failed ❌")
+                          .addRaw(message)
+                          .write();
+            }
 
       # - name: Save test results
       #   if: failure()
