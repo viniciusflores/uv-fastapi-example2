@@ -72,7 +72,6 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const core = require('@actions/core');
             if ('${{ env.TEST_EXIT_CODE }}' != '0') {
               const message = `❌ Some tests failed. See logs for details. ❌<br>${{ env.FAILED_TESTS }}`;
               core.summary.addHeading("❌ Some tests failed ❌")
