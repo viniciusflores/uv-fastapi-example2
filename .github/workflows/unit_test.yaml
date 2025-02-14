@@ -35,15 +35,14 @@ jobs:
         run: |
           uv run coverage run -m pytest --tb=short | tee >(grep -A 5 "FAILED" > failed_tests.txt)
           TEST_EXIT_CODE=${PIPESTATUS[0]}
-          echo $TEST_EXIT_CODE > test_exit_code.txt
+          echo $TEST_EXIT_CODE >> $GITHUB_ENV
           exit $TEST_EXIT_CODE
 
+#          echo $TEST_EXIT_CODE > test_exit_code.txt
       - name: Read failed tests
         if: ${{ always() }}
         id: read-failed-tests
         run: |
-          TEST_EXIT_CODE=$(cat test_exit_code.txt)
-          echo "TEST_EXIT_CODE=$TEST_EXIT_CODE" >> $GITHUB_ENV
           if [ "$TEST_EXIT_CODE" -ne 0 ]; then
             if [ -f failed_tests.txt ]; then
               FAILED_TESTS=$(cat failed_tests.txt)
