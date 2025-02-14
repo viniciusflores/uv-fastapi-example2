@@ -73,7 +73,7 @@ jobs:
         with:
           script: |
             if ('${{ env.TEST_EXIT_CODE }}' != '0') {
-              const message = `❌ Some tests failed. See logs for details. ❌<br>${{ env.FAILED_TESTS }}`;
+              const message = `❌ Some tests failed. See logs for details. ❌`;
               core.summary.addHeading("❌ Some tests failed ❌")
                           .addRaw(message)
                           .write();
