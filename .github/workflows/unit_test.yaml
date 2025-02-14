@@ -72,13 +72,14 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            if (${{ env.TEST_EXIT_CODE }} != '0') {
-              message = "❌ Some tests failed. See logs for details. ❌\n ${{ env.FAILED_TESTS }}";
+            const core = require('@actions/core');
+            if ('${{ env.TEST_EXIT_CODE }}' != '0') {
+              const message = `❌ Some tests failed. See logs for details. ❌<br>${{ env.FAILED_TESTS }}`;
               core.summary.addHeading("❌ Some tests failed ❌")
                           .addRaw(message)
                           .write();
             } else {
-              message = "✅ All tests passed. Great job! ✅";
+              const message = "✅ All tests passed. Great job! ✅";
               core.summary.addHeading("✅ All tests passed ✅")
                           .addRaw(message)
                           .write();
