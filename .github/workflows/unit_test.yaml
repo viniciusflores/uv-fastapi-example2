@@ -35,21 +35,24 @@ jobs:
         run: |
           uv run coverage run -m pytest --tb=short | tee >(grep -A 5 "FAILED" > failed_tests.txt)
           TEST_EXIT_CODE=${PIPESTATUS[0]}
-          echo "TEST_EXIT_CODE=$TEST_EXIT_CODE" >> $GITHUB_ENV
-          echo "TEST_EXIT_CODE=$TEST_EXIT_CODE" >> $GITHUB_ENV
+          echo $TEST_EXIT_CODE > test_exit_code.txt
           exit $TEST_EXIT_CODE
         #  uv run coverage run -m pytest --tb=short | tee /dev/tty | grep -A 5 "FAILED" > failed_tests.txt
         #  run: uv run coverage run -m pytest
 
       - name: Read failed tests
-        if: ${{ env.TEST_EXIT_CODE != 0 }}
+        if: ${{ always() }}
         id: read-failed-tests
         run: |
-          if [ -f failed_tests.txt ]; then
-          FAILED_TESTS=$(cat failed_tests.txt)
-          echo "FAILED_TESTS<<EOF" >> $GITHUB_ENV
-          echo "$FAILED_TESTS" >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
+          TEST_EXIT_CODE=$(cat test_exit_code.txt)
+          echo "TEST_EXIT_CODE=$TEST_EXIT_CODE" >> $GITHUB_ENV
+          if [ "$TEST_EXIT_CODE" -ne 0 ]; then
+            if [ -f failed_tests.txt ]; then
+              FAILED_TESTS=$(cat failed_tests.txt)
+              echo "FAILED_TESTS<<EOF" >> $GITHUB_ENV
+              echo "$FAILED_TESTS" >> $GITHUB_ENV
+              echo "EOF" >> $GITHUB_ENV
+            fi
           fi
         # if: ${{ steps.run-tests.outcome == 'failure' }}
         # if: ${{ steps.run-test.status != '0' }}
