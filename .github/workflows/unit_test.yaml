@@ -83,22 +83,3 @@ jobs:
                           .addRaw(message)
                           .write();
             }
-
-      # - name: Save test results
-      #   if: failure()
-      #   run: echo "❌ Some tests failed. See logs for details." >> $GITHUB_STEP_SUMMARY
-
-      # - name: Comment on PR if tests fail
-      #   id: comment-pr
-      #   if: failure()
-      #   uses: thollander/actions-comment-pull-request@v3
-      #   with:
-      #     comment-tag: to-update
-      #     mode: upsert
-      #     # create-if-not-exists: true
-      #     # reactions: eyes, rocket
-      #     message: |
-      #       "🚨 Some tests failed! Please review the logs before approving or taking the risk. Date: ${{ env.CURRENT_DATE }}"
-      #       "Failed Tests:"
-      #       ""
-      #       "${{ env.FAILED_TESTS }}"
