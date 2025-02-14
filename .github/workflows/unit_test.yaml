@@ -35,15 +35,13 @@ jobs:
         run: |
           uv run coverage run -m pytest --tb=short | tee >(grep -A 5 "FAILED" > failed_tests.txt)
           TEST_EXIT_CODE=${PIPESTATUS[0]}
-          echo $TEST_EXIT_CODE > test_exit_code.txt
+          echo $TEST_EXIT_CODE > $GITHUB_ENV
           exit $TEST_EXIT_CODE
 
       - name: Read failed tests
         if: ${{ always() }}
         id: read-failed-tests
         run: |
-          TEST_EXIT_CODE=$(cat test_exit_code.txt)
-          echo "TEST_EXIT_CODE=$TEST_EXIT_CODE" >> $GITHUB_ENV
           if [ "$TEST_EXIT_CODE" -ne 0 ]; then
             if [ -f failed_tests.txt ]; then
               FAILED_TESTS=$(cat failed_tests.txt)
@@ -60,7 +58,6 @@ jobs:
         env:
           MESSAGE_FAIL: '🚨 Some tests failed! 🚨 Please review the logs before approving or taking the risk. <br>The following are the tests that failed:<br>${{ env.FAILED_TESTS }}'
           MESSAGE_SUCCESS: '✅ All tests passed. Great job! ✅'
-          # MESSAGE_FAIL: '🚨 Some tests failed! 🚨 Please review the logs before approving or taking the risk. Date:  ${{ env.CURRENT_DATE }}<br>Failed Tests:<br>${{ env.FAILED_TESTS }}'
         with:
           comment-tag: to-update
           mode: upsert
@@ -84,3 +81,27 @@ jobs:
                           .addRaw(message)
                           .write();
             }
+
+      # - name: Run tests
+      #   id: run-tests
+      #   run: |
+      #     uv run coverage run -m pytest --tb=short | tee >(grep -A 5 "FAILED" > failed_tests.txt)
+      #     TEST_EXIT_CODE=${PIPESTATUS[0]}
+      #     echo $TEST_EXIT_CODE > test_exit_code.txt
+      #     exit $TEST_EXIT_CODE
+
+
+        #     - name: Read failed tests
+        # if: ${{ always() }}
+        # id: read-failed-tests
+        # run: |
+        #   TEST_EXIT_CODE=$(cat test_exit_code.txt)
+        #   echo "TEST_EXIT_CODE=$TEST_EXIT_CODE" >> $GITHUB_ENV
+        #   if [ "$TEST_EXIT_CODE" -ne 0 ]; then
+        #     if [ -f failed_tests.txt ]; then
+        #       FAILED_TESTS=$(cat failed_tests.txt)
+        #       echo "FAILED_TESTS<<EOF" >> $GITHUB_ENV
+        #       echo "$FAILED_TESTS" >> $GITHUB_ENV
+        #       echo "EOF" >> $GITHUB_ENV
+        #     fi
+        #   fi
