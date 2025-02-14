@@ -61,7 +61,7 @@ jobs:
           message: |
             "🚨 Some tests failed! Please review the logs before approving or taking the risk. Date: ${{ env.CURRENT_DATE }}"
             "Failed Tests:"
-            "${{ env.FAILED_TESTS }}"
+            "\n${{ env.FAILED_TESTS }}\n"
 
       - name: Create a PR status badge
         if: failure()
