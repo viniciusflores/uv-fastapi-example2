@@ -31,6 +31,18 @@ repos:
       - id: ruff-format
         stages: [ pre-commit ]
         types_or: [ python, pyi ]
+  # assuming
+  #   - pytest is in your venv (called .venv)
+  #   - your tests are in a folder called tests
+  - repo: local
+    hooks:
+    - id: pytest
+      name: pytest
+      # entry: ./.venv/bin/pytest tests
+      entry: bash -c 'uv run -m pytest'
+      language: system
+      types: [python]
+      pass_filenames: false
   # - repo: local
   #   hooks:
   #     - id: run-tests
