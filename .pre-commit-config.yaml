@@ -36,7 +36,7 @@ repos:
     - id: pytest
       name: unit tests
       stages: [commit]
-      entry: bash -c 'uv run -m pytest -s -v'
+      entry: bash -c 'uv run -m pytest -s -v 2>&1'
       language: system
       pass_filenames: false
   # - repo: local
