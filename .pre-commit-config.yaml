@@ -36,16 +36,8 @@ repos:
     - id: pytest
       name: unit tests
       stages: [commit]
-      entry: bash -c 'uv run -m pytest -s -v 2>&1'
+      entry: bash -c 'uv run -m pytest -n 8 -s -v'
       language: system
       pass_filenames: false
       verbose: true
-  # - repo: local
-  #   hooks:
-  #     - id: run-tests
-  #       name: Run Unit Tests with Coverage
-  #       entry: uv
-  #       language: system
-  #       types: [python]
-  #       args: ["run", "-m", "pytest", "-s", "-v", "vini/tests/test.py"]
-        # args: ["run", "coverage", "run", "-m", "pytest", "-n", "8", "-s", "-v", "vini/tests/test.py"]
+
