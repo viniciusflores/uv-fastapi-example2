@@ -31,15 +31,13 @@ repos:
       - id: ruff-format
         stages: [ pre-commit ]
         types_or: [ python, pyi ]
-  # assuming
-  #   - pytest is in your venv (called .venv)
-  #   - your tests are in a folder called tests
   - repo: local
     hooks:
     - id: pytest
       name: unit tests
       stages: [commit]
-      entry: bash -c 'uv run -m pytest'
+      # entry: bash -c 'uv run -m pytest'
+      entry: bash -c 'uv run -m pytest --tb=short | tee pytest_output.log && cat pytest_output.log'
       language: system
   # - repo: local
   #   hooks:
