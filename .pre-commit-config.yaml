@@ -40,4 +40,4 @@ repos:
       language: system
       pass_filenames: false
       verbose: true
-
+  # git commit -m "Your commit message" --no-verify
