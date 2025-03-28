@@ -35,7 +35,7 @@ repos:
     hooks:
     - id: pytest
       name: unit tests
-      stages: [commit]
+      # stages: [commit]
       entry: bash -c 'uv run -m pytest -n 8 -s -v'
       language: system
       pass_filenames: false
