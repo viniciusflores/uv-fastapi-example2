@@ -11,6 +11,16 @@ dependencies = [
 [dependency-groups]
 dev = [
     "coverage>=7.6.12",
+    "pip>=25.0.1",
+    "pre-commit>=4.2.0",
+    "pre-commit-uv>=4.1.4",
     "pytest>=8.3.4",
     "pytest-reportlog>=0.4.0",
+    "ruff>=0.11.2",
 ]
+
+[tool.ruff.lint]
+select = ["NPY201"]
+
+[tool.ruff]
+line-length = 130
