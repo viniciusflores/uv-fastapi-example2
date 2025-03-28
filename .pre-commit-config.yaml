@@ -36,8 +36,7 @@ repos:
     - id: pytest
       name: unit tests
       stages: [commit]
-      # entry: bash -c 'uv run -m pytest'
-      entry: bash -c 'uv run -m pytest --tb=short | tee pytest_output.log && cat pytest_output.log'
+      entry: bash -c 'uv run -m pytest -s -v'
       language: system
   # - repo: local
   #   hooks:
