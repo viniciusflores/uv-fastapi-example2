@@ -36,9 +36,9 @@ repos:
     - id: unit-tests
       name: unit-tests
       # stages: [commit]
-      hook stages: [pre-push]
+      # hook stages: [pre-push]
       entry: bash -c 'uv run -m pytest -n 8 -s -v'
       language: system
       pass_filenames: false
       verbose: true
-  # git commit -m "Your commit message" --no-verify
+
