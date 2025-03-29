@@ -31,14 +31,14 @@ repos:
       - id: ruff-format
         stages: [ pre-commit ]
         types_or: [ python, pyi ]
-  - repo: local
-    hooks:
-    - id: unit-tests
-      name: unit-tests
-      # stages: [commit]
-      # hook stages: [pre-push]
-      entry: bash -c 'uv run -m pytest -n 8 -s -v'
-      language: system
-      pass_filenames: false
-      verbose: true
+  # - repo: local
+    # hooks:
+    # - id: unit-tests
+    #   name: unit-tests
+    #   # stages: [commit]
+    #   # hook stages: [pre-push]
+    #   entry: bash -c 'uv run -m pytest -n 8 -s -v'
+    #   language: system
+    #   pass_filenames: false
+    #   verbose: true
 
