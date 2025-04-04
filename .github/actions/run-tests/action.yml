@@ -1,11 +1,11 @@
 name: Run Tests
 description: This is a helper to run unit tests
 
-inputs:
-  export_coverage:
-    description: This variable that control the artifact or no of coverage report. The parameter look like boolean but it is a string
-    default: 'false'
-    required: false
+# inputs:
+#   export_coverage:
+#     description: This variable that control the artifact or no of coverage report. The parameter look like boolean but it is a string
+#     default: 'false'
+#     required: false
 
 runs:
   using: "composite"
