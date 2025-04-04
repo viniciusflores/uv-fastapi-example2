@@ -17,7 +17,9 @@ runs:
         uv run coverage run -m pytest -n auto --tb=short | tee >(grep -A 5 "FAILED" > failed_tests.txt)
         TEST_EXIT_CODE=${PIPESTATUS[0]}
         echo $TEST_EXIT_CODE > test_exit_code.txt
-        exit $TEST_EXIT_CODE
+        if [ $TEST_EXIT_CODE -ne 0 ]; then
+          exit 1
+        fi
 
     - name: Read failed tests
       if: ${{ always() }}
