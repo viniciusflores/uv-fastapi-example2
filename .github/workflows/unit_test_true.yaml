@@ -3,6 +3,9 @@ name: Unit Tests True
 on:
   pull_request:
 
+permissions:
+  pull-requests: write
+
 jobs:
   run-tests:
     strategy:
