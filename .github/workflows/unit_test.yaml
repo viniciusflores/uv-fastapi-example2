@@ -3,6 +3,7 @@ name: Unit Tests
 on:
   pull_request:
 
+
 permissions:
   pull-requests: write
 
@@ -24,6 +25,8 @@ jobs:
 
       - name: Run Tests
         uses: ./.github/actions/run-tests
+        with:
+          export-coverage: 'false'
 
       - name: Comment on PR
         if: always()
