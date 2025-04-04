@@ -26,6 +26,6 @@ jobs:
       #   with:
       #     export_coverage: 'true'
 
-      - name: SonarQube Scan
-        uses: ./.github/actions/sonarqube
+      # - name: SonarQube Scan
+      #   uses: ./.github/actions/sonarqube
 

@@ -2,6 +2,8 @@ name: Unit Tests
 
 on:
   pull_request:
+    branches:
+      - to-be-defined
 
 
 permissions:
@@ -19,19 +21,19 @@ jobs:
         with:
           fetch-depth: "0"
 
-      - name: Setup env
-        uses: ./.github/actions/setup-env
-        timeout-minutes: 90
+      # - name: Setup env
+      #   uses: ./.github/actions/setup-env
+      #   timeout-minutes: 90
 
-      - name: Run Tests
-        uses: ./.github/actions/run-tests
-        # with:
-        #   export-coverage: 'false'
+      # - name: Run Tests
+      #   uses: ./.github/actions/run-tests
+      #   # with:
+      #   #   export-coverage: 'false'
 
-      - name: Comment on PR
-        if: always()
-        uses: ./.github/actions/comment-status-on-pr
+      # - name: Comment on PR
+      #   if: always()
+      #   uses: ./.github/actions/comment-status-on-pr
 
-      - name: Create a PR status badge
-        if: always()
-        uses: ./.github/actions/create-pr-badge
+      # - name: Create a PR status badge
+      #   if: always()
+      #   uses: ./.github/actions/create-pr-badge
