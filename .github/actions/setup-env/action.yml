@@ -13,8 +13,8 @@ runs:
       run: uv sync --locked
       shell: bash
 
-    - name: Force fail
-      shell: bash
-      run: |
-        echo "Force fail now..."
-        exit 1
+    # - name: Force fail
+    #   shell: bash
+    #   run: |
+    #     echo "Force fail now..."
+    #     exit 1
