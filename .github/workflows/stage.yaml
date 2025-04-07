@@ -1,10 +1,10 @@
-name: Unit Tests
+name: Stage Deploy
 
 on:
   push:
     branches:
       - to-be-defined
-      # - stage
+      - stage
 
 jobs:
   run-tests:

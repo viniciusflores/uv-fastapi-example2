@@ -1,5 +1,5 @@
-name: Setup Environment
-description: This is a helper to setup the py environment
+name: Sonarqube Scan
+description: This action to run Sonarqube scan
 
 runs:
   using: "composite"

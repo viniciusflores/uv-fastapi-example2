@@ -1,5 +1,5 @@
-name: Trigger Automated Tests
-description: This action Trigger the run on the automated tests project
+name: Slack Notification
+description: This action to send a slack notification
 
 inputs:
   text_message:
