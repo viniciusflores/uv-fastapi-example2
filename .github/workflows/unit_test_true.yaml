@@ -43,7 +43,7 @@ jobs:
         exit $TEST_EXIT_CODE
 
     - name: Read failed tests
-      if: ${{ always() }}
+      if: always() && (steps.run-tests.conclusion == 'success' || steps.run-tests.conclusion == 'failure')
       id: read-failed-tests
       run: |
         TEST_EXIT_CODE=$(cat test_exit_code.txt)
@@ -58,7 +58,7 @@ jobs:
         fi
 
     - name: Comment on PR
-      if: always()
+      if: always() && (steps.run-tests.conclusion == 'success' || steps.run-tests.conclusion == 'failure')
       id: comment-pr
       uses: thollander/actions-comment-pull-request@v3
       env:
@@ -71,7 +71,7 @@ jobs:
           ${{ env.TEST_EXIT_CODE == '0' && env.MESSAGE_SUCCESS || env.MESSAGE_FAIL}}
 
     - name: Create a PR status badge
-      if: always()
+      if: always() && (steps.run-tests.conclusion == 'success' || steps.run-tests.conclusion == 'failure')
       id: pr-status-badge
       uses: actions/github-script@v7
       with:
