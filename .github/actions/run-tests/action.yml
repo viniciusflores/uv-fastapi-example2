@@ -1,17 +1,17 @@
 name: Run Tests
 description: This is a helper to run unit tests
 
-# inputs:
-#   export_coverage:
-#     description: This variable that control the artifact or no of coverage report. The parameter look like boolean but it is a string
-#     default: 'false'
-#     required: false
+inputs:
+  export_coverage:
+    description: This variable that control the artifact or no of coverage report. The parameter look like boolean but it is a string
+    default: 'false'
+    required: false
 
 runs:
   using: "composite"
   steps:
     - name: Run tests
-      id: run-tests
+      id: run-tests-action
       shell: bash
       run: |
         uv run coverage run -m pytest -n auto --tb=short | tee >(grep -A 5 "FAILED" > failed_tests.txt)
@@ -22,7 +22,7 @@ runs:
         fi
 
     - name: Read failed tests
-      if: ${{ always() }}
+      if: always() && (steps.run-tests-action.conclusion == 'success' || steps.run-tests-action.conclusion == 'failure')
       id: read-failed-tests
       shell: bash
       run: |

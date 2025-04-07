@@ -2,9 +2,6 @@ name: Unit Tests
 
 on:
   pull_request:
-    branches:
-      - to-be-defined
-
 
 permissions:
   pull-requests: write
@@ -21,14 +18,15 @@ jobs:
         with:
           fetch-depth: "0"
 
-      # - name: Setup env
-      #   uses: ./.github/actions/setup-env
-      #   timeout-minutes: 90
+      - name: Setup env
+        uses: ./.github/actions/setup-env
+        timeout-minutes: 10
 
-      # - name: Run Tests
-      #   uses: ./.github/actions/run-tests
-      #   # with:
-      #   #   export-coverage: 'false'
+      - name: Run Tests
+        id: run-tests
+        uses: ./.github/actions/run-tests
+        with:
+          export-coverage: 'true'
 
       # - name: Comment on PR
       #   if: always()
