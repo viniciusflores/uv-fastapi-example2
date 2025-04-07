@@ -2,8 +2,8 @@ name: Unit Tests
 
 on:
   pull_request:
-    branches:
-      - to-be-defined
+    # branches:
+    #   - to-be-defined
 
 jobs:
   run-tests:
@@ -16,16 +16,22 @@ jobs:
         with:
           fetch-depth: "0"
 
-      # - name: Setup env
-      #   uses: ./.github/actions/setup-env
-      #   timeout-minutes: 90
+      - name: Setup env
+        uses: ./.github/actions/setup-env
+        timeout-minutes: 90
 
-      # - name: Run Tests
-      #   uses: ./.github/actions/run-tests
-      #   id: run-tests
-      #   with:
-      #     export_coverage: 'true'
+      - name: Run Tests
+        uses: ./.github/actions/run-tests
+        id: run-tests
 
-      # - name: SonarQube Scan
-      #   uses: ./.github/actions/sonarqube
+      - name: Archive code coverage results
+        id: archive-coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: code-coverage-report
+          path: coverage.xml
+          retention-days: 1
+
+      - name: SonarQube Scan
+        uses: ./.github/actions/sonarqube
 

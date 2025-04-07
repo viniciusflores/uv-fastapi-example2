@@ -25,8 +25,6 @@ jobs:
       - name: Run Tests
         id: run-tests
         uses: ./.github/actions/run-tests
-        with:
-          export-coverage: 'true'
 
       - name: Comment on PR
         if: always() && (steps.run-tests.conclusion == 'success' || steps.run-tests.conclusion == 'failure')
