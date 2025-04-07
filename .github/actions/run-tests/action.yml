@@ -8,7 +8,7 @@ runs:
       id: run-tests-action
       shell: bash
       run: |
-        uv run coverage run -m pytest -n auto --tb=short | tee >(grep -A 5 "FAILED" > failed_tests.txt)
+        uv run coverage run -m pytest -n auto --tb=short --cov=. --cov-report xml | tee >(grep -A 5 "FAILED" > failed_tests.txt)
         TEST_EXIT_CODE=${PIPESTATUS[0]}
         echo $TEST_EXIT_CODE > test_exit_code.txt
         if [ $TEST_EXIT_CODE -ne 0 ]; then
