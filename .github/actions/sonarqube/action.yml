@@ -1,0 +1,9 @@
+name: Sonarqube Scan
+description: This action to run Sonarqube scan
+
+runs:
+  using: "composite"
+  steps:
+    - name: Run Sonarqube Scan
+      run: echo "Call our internal Sonarqube scan"
+      shell: bash

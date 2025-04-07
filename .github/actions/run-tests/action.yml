@@ -1,0 +1,32 @@
+name: Run Tests
+description: This is a helper to run unit tests
+
+runs:
+  using: "composite"
+  steps:
+    - name: Run tests
+      id: run-tests-action
+      shell: bash
+      run: |
+        uv run coverage run -m pytest -n auto --tb=short --cov=. --cov-report xml | tee >(grep -A 5 "FAILED" > failed_tests.txt)
+        TEST_EXIT_CODE=${PIPESTATUS[0]}
+        echo $TEST_EXIT_CODE > test_exit_code.txt
+        if [ $TEST_EXIT_CODE -ne 0 ]; then
+          exit 1
+        fi
+
+    - name: Read failed tests
+      if: always() && (steps.run-tests-action.conclusion == 'success' || steps.run-tests-action.conclusion == 'failure')
+      id: read-failed-tests
+      shell: bash
+      run: |
+        TEST_EXIT_CODE=$(cat test_exit_code.txt)
+        echo "TEST_EXIT_CODE=$TEST_EXIT_CODE" >> $GITHUB_ENV
+        if [ "$TEST_EXIT_CODE" -ne 0 ]; then
+          if [ -f failed_tests.txt ]; then
+            FAILED_TESTS=$(cat failed_tests.txt)
+            echo "FAILED_TESTS<<EOF" >> $GITHUB_ENV
+            echo "$FAILED_TESTS" >> $GITHUB_ENV
+            echo "EOF" >> $GITHUB_ENV
+          fi
+        fi
