@@ -37,12 +37,12 @@ runs:
           fi
         fi
 
-    # - name: Archive code coverage results
-    #   if: ${{ inputs.export_coverage == 'true' }}
-    #   id: archive-coverage
-    #   shell: bash
-    #   uses: actions/upload-artifact@v4
-    #   with:
-    #     name: code-coverage-report
-    #     path: coverage.xml
-    #     retention-days: 1
+    - name: Archive code coverage results
+      # if: ${{ inputs.export_coverage == 'true' }}
+      id: archive-coverage
+      shell: bash
+      uses: actions/upload-artifact@v4
+      with:
+        name: code-coverage-report
+        path: coverage.xml
+        retention-days: 1
