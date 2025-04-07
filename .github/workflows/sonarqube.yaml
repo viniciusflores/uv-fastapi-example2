@@ -2,8 +2,8 @@ name: Sonarqube
 
 on:
   pull_request:
-    # branches:
-    #   - to-be-defined
+    branches:
+      - to-be-defined
 
 jobs:
   run-tests:
@@ -23,9 +23,6 @@ jobs:
       - name: Run Tests
         uses: ./.github/actions/run-tests
         id: run-tests
-
-      - name: List workspace files
-        run: ls -R
 
       - name: Archive code coverage results
         id: archive-coverage
