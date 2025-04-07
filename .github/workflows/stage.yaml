@@ -1,8 +1,9 @@
-name: Unit Tests
+name: Stage Deploy
 
 on:
   push:
     branches:
+      - to-be-defined
       - stage
 
 jobs:
@@ -14,13 +15,13 @@ jobs:
         with:
           fetch-depth: "0"
 
-      - name: Setup env
-        uses: ./.github/actions/deploy-ecr
-        with:
-          ENV: stage
+      # - name: Setup env
+      #   uses: ./.github/actions/deploy-ecr
+      #   with:
+      #     ENV: stage
 
-      - name: Slack notification
-        uses: ./.github/actions/slack-notification
-        with:
-          text_message: "result ? success : failure"
+      # - name: Slack notification
+      #   uses: ./.github/actions/slack-notification
+      #   with:
+      #     text_message: "result ? success : failure"
 

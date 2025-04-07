@@ -1,9 +1,10 @@
-name: Unit Tests
+name: Main Deploy
 
 on:
   push:
     branches:
-      - prod
+      # - prod
+      - to-be-defined
 
 jobs:
   run-tests:
@@ -14,13 +15,13 @@ jobs:
         with:
           fetch-depth: "0"
 
-      - name: Setup env
-        uses: ./.github/actions/deploy-ecr
-        with:
-          ENV: prod
+      # - name: Setup env
+      #   uses: ./.github/actions/deploy-ecr
+      #   with:
+      #     ENV: prod
 
-      - name: Slack notification
-        uses: ./.github/actions/slack-notification
-        with:
-          text_message: "result ? success : failure"
+      # - name: Slack notification
+      #   uses: ./.github/actions/slack-notification
+      #   with:
+      #     text_message: "result ? success : failure"
 

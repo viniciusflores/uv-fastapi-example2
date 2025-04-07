@@ -1,4 +1,4 @@
-name: Setup Aws ECR
+name: Setup and deploy AWS ECR
 description: This action Setup the AWS ECR
 
 inputs:
