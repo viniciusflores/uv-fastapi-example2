@@ -2,6 +2,8 @@ name: Unit Tests True
 
 on:
   pull_request:
+    branches:
+      - to-be-defined-branch
 
 permissions:
   pull-requests: write
