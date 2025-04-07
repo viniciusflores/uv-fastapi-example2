@@ -3,8 +3,7 @@ name: Main Deploy
 on:
   push:
     branches:
-      # - prod
-      - to-be-defined
+      - main
 
 jobs:
   run-tests:

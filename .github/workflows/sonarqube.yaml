@@ -3,7 +3,7 @@ name: Sonarqube
 on:
   pull_request:
     branches:
-      - to-be-defined
+      - stage
 
 jobs:
   run-tests:

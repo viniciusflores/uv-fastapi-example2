@@ -3,7 +3,6 @@ name: Stage Deploy
 on:
   push:
     branches:
-      - to-be-defined
       - stage
 
 jobs:
