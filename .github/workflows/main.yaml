@@ -31,7 +31,7 @@ jobs:
           ENV: dev
 
       - name: Trigger Test
-        if: always() && steps.deploy.outputs.result == 'success'
+        if: always() && steps.deploy.conclusion  == 'success'
         uses: ./.github/actions/trigger-test
         with:
           repo: "viniciusflores/playwright-py-sample"
