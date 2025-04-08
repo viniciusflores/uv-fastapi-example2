@@ -24,13 +24,3 @@ jobs:
       #   with:
       #     text_message: "result ? success : failure"
 
-      - name: Deploy
-        id: deploy
-        uses: ./.github/actions/deploy-ecr
-        with:
-          ENV: dev
-
-      - name: Trigger Test
-        if: always() && steps.deploy.outputs.result == 'success'
-        uses: ./.github/actions/trigger-test
-

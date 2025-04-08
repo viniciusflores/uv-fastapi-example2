@@ -1,9 +1,27 @@
 name: Trigger Automated Tests
-description: This action Trigger the run on the automated tests project
+description: This action triggers the run on the automated tests project
+
+inputs:
+  repo:
+    description: The repository to trigger (e.g., owner/repo)
+    required: true
+  workflow:
+    description: The workflow file name to trigger (e.g., test.yml)
+    required: true
+  ref:
+    description: The branch or tag to run the workflow on (e.g., main)
+    required: true
 
 runs:
   using: "composite"
   steps:
-    - name: Run e2e tests
-      run: echo "Trigger the run on the automated tests project"
+    - name: Trigger automated tests
       shell: bash
+      env:
+        GITHUB_TOKEN: ${{ secrets.TRIGGER_AUTO_TEST_TOKEN }}
+      run: |
+        curl -X POST \
+          -H "Accept: application/vnd.github+json" \
+          -H "Authorization: Bearer $GITHUB_TOKEN" \
+          https://api.github.com/repos/${{ inputs.repo }}/actions/workflows/${{ inputs.workflow }}/dispatches \
+          -d '{"ref":"${{ inputs.ref }}"}'
