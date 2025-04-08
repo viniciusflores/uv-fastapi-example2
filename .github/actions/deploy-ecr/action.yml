@@ -14,7 +14,7 @@ runs:
       shell: bash
 
     - name: Build, tag, push docker image
-      run: echo "build, tag, push docker image
+      run: echo "build, tag, push docker image"
       shell: bash
 
     - name: Deploy Amazon ECS task definition
