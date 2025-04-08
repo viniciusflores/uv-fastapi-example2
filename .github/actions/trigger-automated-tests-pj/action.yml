@@ -11,6 +11,9 @@ inputs:
   ref:
     description: The branch or tag to run the workflow on (e.g., main)
     required: true
+  token:
+    description: The GitHub token to use for authentication
+    required: true
 
 runs:
   using: "composite"
@@ -18,7 +21,7 @@ runs:
     - name: Trigger automated tests
       shell: bash
       env:
-        GITHUB_TOKEN: ${{ secrets.TRIGGER_AUTO_TEST_TOKEN }}
+        GITHUB_TOKEN: ${{ inputs.token }}
       run: |
         curl -X POST \
           -H "Accept: application/vnd.github+json" \

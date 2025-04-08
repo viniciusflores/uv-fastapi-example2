@@ -37,6 +37,7 @@ jobs:
           repo: "viniciusflores/playwright-py-sample"
           workflow: "dispatch-smoke.yml"
           ref: "main"
+          token: ${{ secrets.TRIGGER_AUTO_TEST_TOKEN }}
 
 
 
