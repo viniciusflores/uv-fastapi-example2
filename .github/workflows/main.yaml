@@ -32,7 +32,7 @@ jobs:
 
       - name: Trigger Test
         if: always() && steps.deploy.conclusion  == 'success'
-        uses: ./.github/actions/trigger-test
+        uses: ./.github/actions/trigger-automated-tests-pj
         with:
           repo: "viniciusflores/playwright-py-sample"
           workflow: "dispatch-smoke.yml"
