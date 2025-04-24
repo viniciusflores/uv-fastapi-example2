@@ -1,5 +1,3 @@
-def dummy():
-    """
-    This is a dummy function that does nothing.
-    """
-    pass
+def dummy(arg1):
+    print(f"{arg1} from dummy function")
+    return None
